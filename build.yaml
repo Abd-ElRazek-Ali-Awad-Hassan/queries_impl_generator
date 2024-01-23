@@ -1,0 +1,8 @@
+builders:
+  queries_impl:
+    import: "package:queries_impl_generator/builder.dart"
+    builder_factories: [ "queriesImplBuilder" ]
+    build_extensions: { ".dart": [ "queries_impl.g.part" ] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: [ "source_gen|combining_builder" ]

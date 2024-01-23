@@ -1,0 +1,22 @@
+name: queries_impl_generator
+publish_to: none
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  analyzer: '>=5.2.0 <7.0.0'
+  build: ^2.0.0
+  exceptions:
+    git: https://github.com/mahmood1996/exceptions.git
+  failures:
+    git: https://github.com/mahmood1996/failures.git
+  fpdart: ^1.1.0
+  internet_connection_checker:
+    git: https://github.com/mahmood1996/internet_connection_checker.git
+  source_gen: any
+
+dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
+  dart_style: ^2.3.4
+  source_gen_test: ^1.0.6
