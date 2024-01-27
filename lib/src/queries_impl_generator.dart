@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
@@ -31,11 +32,11 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
             _buildMixinDeclaration(element),
             _buildConnectionCheckerInstanceDeclaration(),
             _buildConnectionCheckerInstanceSetter(),
-            _buildExecuteActionIfHasInternetAccess(),
-            _buildMapExceptionToFailureOn(),
             ..._methodsAnnotatedWith<Query>(element.methods).map(
               (e) => '\n${_buildMethod(e)}',
             ),
+            _buildExecuteActionIfHasInternetAccess(),
+            _buildMapExceptionToFailureOn(),
             '}\n',
           ]))
         .toString();
@@ -45,13 +46,32 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
       'mixin _\$${element.name}Mixin {\n'
       '\n';
 
-  String _buildMethod(MethodElement element) =>
-      '${element.returnType} _\$${element.name}(\n'
-      ' ${element.returnType} Function() callback,\n'
-      ') async =>\n'
-      '_\$executeActionIfHasInternetAccess(\n'
-      'action: () => _\$mapExceptionToFailureOn(callback: callback),\n'
-      ');\n';
+  String _buildMethod(MethodElement element) {
+    final passedFunction = _getPassedFunctionToAnnotation(
+      _getFirstAnnotationOn<Query>(element),
+      'mapExceptionToFailure',
+    );
+
+    final passedFunctionName = passedFunction?.displayName;
+
+    return '${element.returnType} _\$${element.name}(\n'
+        ' ${element.returnType} Function() callback,\n'
+        ') async =>\n'
+        '_\$executeActionIfHasInternetAccess(\n'
+        'action: () => ${passedFunctionName ?? '_\$mapExceptionToFailureOn'}(callback: callback),\n'
+        ');\n';
+  }
+
+  DartObject? _getFirstAnnotationOn<AnnotationType>(Element element) {
+    return TypeChecker.fromRuntime(AnnotationType)
+        .firstAnnotationOfExact(element);
+  }
+
+  ExecutableElement? _getPassedFunctionToAnnotation(
+    DartObject? annotation,
+    String functionVariableName,
+  ) =>
+      annotation?.getField(functionVariableName)?.toFunctionValue();
 
   Iterable<MethodElement> _methodsAnnotatedWith<AnnotationType>(
     Iterable<MethodElement> elements,
