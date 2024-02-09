@@ -10,10 +10,10 @@ typedef ExceptionToFailureMapper<ReturnType>
   required Future<Either<Failure, ReturnType>> Function() callback,
 });
 
-class Query {
+class Query<ReturnType> {
   const Query({
     this.mapExceptionToFailure,
   });
 
-  final ExceptionToFailureMapper? mapExceptionToFailure;
+  final ExceptionToFailureMapper<ReturnType>? mapExceptionToFailure;
 }

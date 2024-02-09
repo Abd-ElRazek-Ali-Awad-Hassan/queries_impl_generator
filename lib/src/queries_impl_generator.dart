@@ -52,13 +52,19 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
       'mapExceptionToFailure',
     );
 
-    final passedFunctionName = passedFunction?.displayName;
+    String? passedFunctionReference = switch (passedFunction) {
+      (null) => null,
+      (_) => switch (passedFunction.enclosingElement) {
+          (ClassElement e) => '${e.displayName}.${passedFunction.displayName}',
+          (_) => passedFunction.displayName,
+        }
+    };
 
     return '${element.returnType} _\$${element.name}(\n'
         ' ${element.returnType} Function() callback,\n'
         ') async =>\n'
         '_\$executeActionIfHasInternetAccess(\n'
-        'action: () => ${passedFunctionName ?? '_\$mapExceptionToFailureOn'}(callback: callback),\n'
+        'action: () => ${passedFunctionReference ?? '_\$mapExceptionToFailureOn'}(callback: callback),\n'
         ');\n';
   }
 
@@ -75,12 +81,12 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
 
   Iterable<MethodElement> _methodsAnnotatedWith<AnnotationType>(
     Iterable<MethodElement> elements,
-  ) =>
-      elements.where(
-        (element) => element.metadata
-            .map((e) => e.element!.declaration!.displayName)
-            .contains('$AnnotationType'),
-      );
+  ) {
+    return elements.where(
+      (element) => TypeChecker.fromRuntime(AnnotationType)
+          .hasAnnotationOf(element, throwOnUnresolved: false),
+    );
+  }
 
   String _buildConnectionCheckerInstanceDeclaration() =>
       'late final InternetConnectionChecker _checker;\n\n';

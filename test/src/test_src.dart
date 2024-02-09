@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:failures/failures.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:queries_impl_generator/annotations.dart';
@@ -49,7 +51,8 @@ const double aVariableNotAClass = 3.14;
 )
 @GenerateForQueries()
 class GenerateMixin {
-  Future<Either<Failure, dynamic>> getAnyThing2() async => const Right(1);
+  Future<Either<Failure, dynamic>> aFunctionNotAnnotated() async =>
+      const Right(1);
 }
 
 @ShouldGenerate(
@@ -67,29 +70,28 @@ class GenerateQueriesImpl {
   Future<Either<Failure, dynamic>> getAnyThing() async => const Right(1);
 }
 
-Future<Either<Failure, int>> mapExceptionToFailureOn<int>({
-  required Future<Either<Failure, int>> Function() callback,
-}) async {
-  try {
-    return await callback();
-  } on FormatException {
-    return Left(ServerFailure());
-  }
-}
-
 @ShouldGenerate(
   '  Future<Either<Failure, int>> _\$getAnyThing(\n'
   '    Future<Either<Failure, int>> Function() callback,\n'
   '  ) async =>\n'
   '      _\$executeActionIfHasInternetAccess(\n'
-  '        action: () => mapExceptionToFailureOn(callback: callback),\n'
+  '        action: () => GenerateQueriesWithCustomExceptionMappingImpl\n'
+  '            .mapExceptionToFailureOn(callback: callback),\n'
   '      );\n',
   contains: true,
 )
 @GenerateForQueries()
 class GenerateQueriesWithCustomExceptionMappingImpl {
-  @Query(
-    mapExceptionToFailure: mapExceptionToFailureOn,
-  )
+  @Query<int>(mapExceptionToFailure: mapExceptionToFailureOn)
   Future<Either<Failure, int>> getAnyThing() async => const Right(1);
+
+  static Future<Either<Failure, int>> mapExceptionToFailureOn({
+    required Future<Either<Failure, int>> Function() callback,
+  }) async {
+    try {
+      return await callback();
+    } on FormatException {
+      return Left(ServerFailure());
+    }
+  }
 }
