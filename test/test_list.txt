@@ -7,3 +7,4 @@
 (Done) generate connection checking code.
 (Done) generate exception to failure mapping.
 (Done) generate methods that are prefixed with _$ for each method annotated with @Query().
+(Done) generate Query(withCaching: true) impl.

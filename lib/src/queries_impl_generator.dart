@@ -1,7 +1,7 @@
-import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:queries_impl_annotation/queries_impl_annotation.dart';
+import 'package:queries_impl_generator/src/utils.dart';
 import 'package:source_gen/source_gen.dart';
 
 class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
@@ -31,8 +31,8 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
             _buildMixinDeclaration(element),
             _buildConnectionCheckerInstanceDeclaration(),
             _buildConnectionCheckerInstanceSetter(),
-            ..._methodsAnnotatedWith<Query>(element.methods).map(
-              (e) => '\n${_buildMethod(e)}',
+            ...Utils.methodsAnnotatedWith<Query>(element.methods).map(
+              (e) => '${_buildMethod(e)}\n',
             ),
             _buildExecuteActionIfHasInternetAccess(),
             _buildMapExceptionToFailureOn(),
@@ -46,45 +46,54 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
       '\n';
 
   String _buildMethod(MethodElement element) {
-    final passedFunction = _getPassedFunctionToAnnotation(
-      _getFirstAnnotationOn<Query>(element),
-      'mapExceptionToFailure',
-    );
+    bool isQueryWithCaching = Utils.getFirstAnnotationOn<Query>(element)!
+        .getField('withCaching')!
+        .toBoolValue()!;
 
-    String? passedFunctionReference = switch (passedFunction) {
-      (null) => null,
-      (_) => switch (passedFunction.enclosingElement) {
-          (ClassElement e) => '${e.displayName}.${passedFunction.displayName}',
-          (_) => passedFunction.displayName,
-        }
-    };
+    if (isQueryWithCaching) {
+      return _buildQueryWithCachingImplFor(element);
+    }
+    return _buildQueryWithoutCachingImplFor(element);
+  }
 
+  String _buildQueryWithCachingImplFor(MethodElement element) {
+    return 'Future<Either<Failure, ReturnType>> _\$${element.name}<ReturnType>({\n'
+        '  required Future<ReturnType> Function() getFromRemote,\n'
+        '  required Future<ReturnType> Function() getFromCache,\n'
+        '  required Future<void> Function(ReturnType) saveOnCache,\n'
+        '}) async {\n'
+        '  return await ${_getMapExceptionToFailureReferenceFor(element)}'
+        '  (callback: () async {\n'
+        '    if (!await _checker.hasInternetAccess) {\n'
+        '      return Right(await getFromCache());\n'
+        '    }\n\n'
+        '    final value = await getFromRemote();\n'
+        '    await saveOnCache(value);\n'
+        '    return Right(value);\n'
+        '  });\n'
+        '}\n';
+  }
+
+  String _buildQueryWithoutCachingImplFor(MethodElement element) {
     return '${element.returnType} _\$${element.name}(\n'
         ' ${element.returnType} Function() callback,\n'
         ') async =>\n'
         '_\$executeActionIfHasInternetAccess(\n'
-        'action: () => ${passedFunctionReference ?? '_\$mapExceptionToFailureOn'}(callback: callback),\n'
+        'action: () => ${_getMapExceptionToFailureReferenceFor(element)}'
+        '(callback: callback),\n'
         ');\n';
   }
 
-  DartObject? _getFirstAnnotationOn<AnnotationType>(Element element) {
-    return TypeChecker.fromRuntime(AnnotationType)
-        .firstAnnotationOfExact(element);
-  }
-
-  ExecutableElement? _getPassedFunctionToAnnotation(
-    DartObject? annotation,
-    String functionVariableName,
-  ) =>
-      annotation?.getField(functionVariableName)?.toFunctionValue();
-
-  Iterable<MethodElement> _methodsAnnotatedWith<AnnotationType>(
-    Iterable<MethodElement> elements,
-  ) {
-    return elements.where(
-      (element) => TypeChecker.fromRuntime(AnnotationType)
-          .hasAnnotationOf(element, throwOnUnresolved: false),
+  String _getMapExceptionToFailureReferenceFor(MethodElement element) {
+    final mapExceptionToFailure = Utils.getPassedFunctionToAnnotation(
+      Utils.getFirstAnnotationOn<Query>(element),
+      'mapExceptionToFailure',
     );
+
+    return switch (mapExceptionToFailure) {
+      (null) => '_\$mapExceptionToFailureOn',
+      (ExecutableElement e) => Utils.getFunctionReferenceAsStringFor(e),
+    };
   }
 
   String _buildConnectionCheckerInstanceDeclaration() =>

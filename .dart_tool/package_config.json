@@ -273,9 +273,9 @@
     },
     {
       "name": "mime",
-      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/mime-1.0.4",
+      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/mime-1.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.2"
     },
     {
       "name": "nm",
@@ -333,7 +333,7 @@
     },
     {
       "name": "queries_impl_annotation",
-      "rootUri": "file:///Users/mac/.pub-cache/git/queries_impl_annotation-2a32fda89ad13feea9a0e6a30e2e7271b908489c/",
+      "rootUri": "file:///Users/mac/.pub-cache/git/queries_impl_annotation-db5020d253dfee8660b5d2a99e2bebfeccc5a10e/",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -429,7 +429,7 @@
     },
     {
       "name": "test",
-      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/test-1.25.1",
+      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/test-1.25.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -506,7 +506,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-02-10T15:15:04.858719Z",
+  "generated": "2024-02-10T21:41:21.121521Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }
