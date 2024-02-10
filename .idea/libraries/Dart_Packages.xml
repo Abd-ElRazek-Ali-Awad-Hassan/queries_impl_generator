@@ -387,6 +387,13 @@
             </list>
           </value>
         </entry>
+        <entry key="queries_impl_annotation">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/git/queries_impl_annotation-2a32fda89ad13feea9a0e6a30e2e7271b908489c//lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="shelf">
           <value>
             <list>
@@ -582,6 +589,7 @@
       <root url="file://$USER_HOME$/.pub-cache/git/exceptions-b4d910742cb2d8ac6a8dcfa0dbaa40fc41db27e3//lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/failures-84576b715f6379dbec503914e23f86ec6b32fc72//lib" />
       <root url="file://$USER_HOME$/.pub-cache/git/internet_connection_checker-a51f479200bd92f7cf47afaea837d0541f7b84ac//lib" />
+      <root url="file://$USER_HOME$/.pub-cache/git/queries_impl_annotation-2a32fda89ad13feea9a0e6a30e2e7271b908489c//lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-64.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analyzer-6.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/args-2.4.2/lib" />

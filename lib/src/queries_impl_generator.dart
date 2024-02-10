@@ -1,9 +1,8 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:queries_impl_annotation/queries_impl_annotation.dart';
 import 'package:source_gen/source_gen.dart';
-
-import '../annotations.dart';
 
 class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
   const QueriesImplGenerator();

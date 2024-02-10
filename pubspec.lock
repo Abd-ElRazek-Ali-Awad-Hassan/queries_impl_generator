@@ -438,6 +438,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  queries_impl_annotation:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "2a32fda89ad13feea9a0e6a30e2e7271b908489c"
+      url: "https://github.com/mahmood1996/queries_impl_annotation.git"
+    source: git
+    version: "1.0.0"
   shelf:
     dependency: transitive
     description:

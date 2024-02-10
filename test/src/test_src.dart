@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:failures/failures.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:queries_impl_generator/annotations.dart';
+import 'package:queries_impl_annotation/queries_impl_annotation.dart';
 import 'package:source_gen_test/annotations.dart';
 
 @ShouldThrow('The source annotation should be set!')

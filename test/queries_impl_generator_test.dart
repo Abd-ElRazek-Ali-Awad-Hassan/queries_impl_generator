@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:queries_impl_generator/annotations.dart';
+import 'package:queries_impl_annotation/queries_impl_annotation.dart';
 import 'package:queries_impl_generator/src/queries_impl_generator.dart';
 import 'package:source_gen_test/src/build_log_tracking.dart';
 import 'package:source_gen_test/src/init_library_reader.dart';

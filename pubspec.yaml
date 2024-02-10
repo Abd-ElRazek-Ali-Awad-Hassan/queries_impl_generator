@@ -14,6 +14,8 @@ dependencies:
   fpdart: ^1.1.0
   internet_connection_checker:
     git: https://github.com/mahmood1996/internet_connection_checker.git
+  queries_impl_annotation:
+    git: https://github.com/mahmood1996/queries_impl_annotation.git
   source_gen: any
 
 dev_dependencies:

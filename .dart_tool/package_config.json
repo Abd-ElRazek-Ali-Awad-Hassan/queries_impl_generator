@@ -332,6 +332,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "queries_impl_annotation",
+      "rootUri": "file:///Users/mac/.pub-cache/git/queries_impl_annotation-2a32fda89ad13feea9a0e6a30e2e7271b908489c/",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "shelf",
       "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/shelf-1.4.1",
       "packageUri": "lib/",
@@ -500,7 +506,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-01-23T20:49:33.864390Z",
+  "generated": "2024-02-10T15:15:04.858719Z",
   "generator": "pub",
   "generatorVersion": "3.2.2"
 }
