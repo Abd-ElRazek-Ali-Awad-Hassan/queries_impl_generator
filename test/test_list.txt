@@ -1,6 +1,6 @@
 (Done) ensure annotation set before generating.
 (Done) when annotate a function or, variable. throws "'GenerateForQueries()' only support classes".
-(Done) generate mixin with name of the class.
+(Done) generate mixin with name _$QueriesImplMixin.
 (Done) ensure generated code has (import 'package:internet_connection_checker/internet_connection_checker.dart');
 (Done) ensure generated code has _$setInternetConnectionChecker.
 (Done) generate imports.

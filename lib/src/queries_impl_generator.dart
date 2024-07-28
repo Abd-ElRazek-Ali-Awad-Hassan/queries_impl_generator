@@ -42,7 +42,7 @@ class QueriesImplGenerator extends GeneratorForAnnotation<GenerateForQueries> {
   }
 
   String _buildMixinDeclaration(ClassElement element) =>
-      'mixin _\$${element.name}Mixin {\n'
+      'mixin _\$QueriesImplMixin {\n'
       '\n';
 
   String _buildMethod(MethodElement element) {

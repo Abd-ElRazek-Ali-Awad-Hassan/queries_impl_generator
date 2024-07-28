@@ -17,7 +17,7 @@ void aFunctionNotAClass() {}
 const double aVariableNotAClass = 3.14;
 
 @ShouldGenerate(
-  'mixin _\$GenerateMixinMixin {\n'
+  'mixin _\$QueriesImplMixin {\n'
   '  late final InternetConnectionChecker _checker;\n'
   '\n'
   '  void _\$setInternetConnectionChecker(InternetConnectionChecker checker) =>\n'
